@@ -1,7 +1,7 @@
 name: simplebank
 
 services:
-  db:
+  postgres:
     image: postgres:18
     container_name: simplebank-postgres
     restart: unless-stopped
@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: simplebank
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     ports:
       - "5432:5432"
     healthcheck:
