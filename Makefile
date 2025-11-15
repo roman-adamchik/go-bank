@@ -19,4 +19,7 @@ migratedown:
 sqlc:
 	sqlc generate
 
-.PNOHY: createdb dropdb migrateup migratedown sqlc
+test:
+	go test -v -cover ./...
+
+.PNOHY: createdb dropdb migrateup migratedown sqlc test
