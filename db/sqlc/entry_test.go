@@ -10,6 +10,8 @@ import (
 )
 
 func CreateRandomEntry(t *testing.T, accountID int64) Entry {
+	t.Helper()
+
 	args := CreateEntryParams{
 		AccountID: accountID,
 		Amount:    util.RandomMoney(),
