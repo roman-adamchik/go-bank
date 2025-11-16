@@ -10,6 +10,8 @@ import (
 )
 
 func CreateRandomTransfer(t *testing.T, accountId1 int64, accountId2 int64) Transfer {
+	t.Helper()
+
 	args := CreateTransferParams{
 		FromAccountID: accountId1,
 		ToAccountID:   accountId2,
