@@ -105,3 +105,51 @@ func TestTransferTx(t *testing.T) {
 	require.Equal(t, fromAccountInitial.Balance-int64(n)*amount, fromAccountUpdated.Balance)
 	require.Equal(t, toAccountInitial.Balance+int64(n)*amount, toAccountUpdated.Balance)
 }
+
+func TestTransferTxDeadlock(t *testing.T) {
+	store := NewStore(testPool)
+
+	fromAccountInitial := CreateRandomAccount(t)
+	toAccountInitial := CreateRandomAccount(t)
+
+	// run n concurrent transfer transactions
+	n := 10
+	amount := int64(10)
+
+	errors := make(chan error)
+
+	for i := 0; i < n; i++ {
+		fromAccountId := fromAccountInitial.ID
+		toAccountId := toAccountInitial.ID
+
+		if i%2 == 1 {
+			fromAccountId = toAccountInitial.ID
+			toAccountId = fromAccountInitial.ID
+		}
+
+		go func() {
+			_, err := store.TransferTx(context.Background(), TransferTxParams{
+				FromAccountID: fromAccountId,
+				ToAccountID:   toAccountId,
+				Amount:        amount,
+			})
+
+			errors <- err
+		}()
+	}
+
+	// check results
+	for i := 0; i < n; i++ {
+		err := <-errors
+		require.NoError(t, err)
+	}
+
+	// check the final accounts data
+	fromAccountUpdated, err := testQueries.GetAccount(context.Background(), fromAccountInitial.ID)
+	require.NoError(t, err)
+	toAccountUpdated, err := testQueries.GetAccount(context.Background(), toAccountInitial.ID)
+	require.NoError(t, err)
+
+	require.Equal(t, fromAccountInitial.Balance, fromAccountUpdated.Balance)
+	require.Equal(t, toAccountInitial.Balance, toAccountUpdated.Balance)
+}
