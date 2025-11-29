@@ -3,6 +3,8 @@ include .env
 # Variables
 PROJECT_NAME = simplebank
 POSTGRES_CONTAINER = $(PROJECT_NAME)-postgres
+POSTGRES_USER ?= root
+POSTGRES_DB ?= simple_bank
 
 createdb:
 	docker exec -it $(POSTGRES_CONTAINER) createdb --username=$(POSTGRES_USER) --owner=${POSTGRES_USER} ${POSTGRES_DB}
