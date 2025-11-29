@@ -1,4 +1,4 @@
--include .env
+-include app.env
 
 # Variables
 PROJECT_NAME = simplebank
@@ -24,4 +24,7 @@ sqlc:
 test:
 	go test -v -cover ./...
 
-.PNOHY: createdb dropdb migrateup migratedown sqlc test
+server:
+	go run main.go
+
+.PNOHY: createdb dropdb migrateup migratedown sqlc test server
