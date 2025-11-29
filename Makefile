@@ -1,4 +1,4 @@
-include .env
+-include .env
 
 # Variables
 PROJECT_NAME = simplebank
