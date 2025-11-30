@@ -3,14 +3,12 @@ package db
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"testing"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-)
-
-const (
-	dbSource = "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable"
+	"github.com/roman-adamchik/simplebank/util"
 )
 
 var (
@@ -19,10 +17,14 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	var err error
+	config, err := util.LoadConfig("../..")
+	if err != nil {
+		log.Fatal("cannot load config:", err)
+	}
+
 	ctx := context.Background()
 
-	testPool, err = pgxpool.New(ctx, dbSource)
+	testPool, err = pgxpool.New(ctx, config.DBSource)
 
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to create pool: %v\n", err)

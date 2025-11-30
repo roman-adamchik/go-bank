@@ -1,22 +1,14 @@
--include app.env
-
-# Variables
-PROJECT_NAME = simplebank
-POSTGRES_CONTAINER = $(PROJECT_NAME)-postgres
-POSTGRES_USER ?= root
-POSTGRES_DB ?= simple_bank
-
 createdb:
-	docker exec -it $(POSTGRES_CONTAINER) createdb --username=$(POSTGRES_USER) --owner=${POSTGRES_USER} ${POSTGRES_DB}
+	docker exec -it simplebank-postgres createdb --username=root --owner=root simple_bank
 
 dropdb:
-	docker exec -it $(POSTGRES_CONTAINER) dropdb ${POSTGRES_DB}
+	docker exec -it simplebank-postgres dropdb simple_bank
 
 migrateup:
-	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/${POSTGRES_DB}?sslmode=disable" -verbose up
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
 migratedown:
-	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/${POSTGRES_DB}?sslmode=disable" -verbose down
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
 
 sqlc:
 	sqlc generate

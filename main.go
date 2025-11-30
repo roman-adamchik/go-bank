@@ -12,20 +12,15 @@ import (
 	"github.com/roman-adamchik/simplebank/util"
 )
 
-const (
-	serverAddress = "0.0.0.0:8080"
-)
-
 func main() {
 	config, err := util.LoadConfig(".")
 	if err != nil {
 		log.Fatal("cannot load config:", err)
 	}
 
-	dbSource := "postgresql://" + config.PostgresUser + ":" + config.PostgresPassword + "@localhost:5432/" + config.PostgresDB + "?sslmode=disable"
 	ctx := context.Background()
 
-	pool, err := pgxpool.New(ctx, dbSource)
+	pool, err := pgxpool.New(ctx, config.DBSource)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to create pool: %v\n", err)
 		os.Exit(1)
@@ -40,12 +35,7 @@ func main() {
 	store := db.NewStore(pool)
 	server := api.NewServer(store)
 
-	serverAddress := os.Getenv("SERVER_ADDRESS")
-	if serverAddress == "" {
-		serverAddress = "0.0.0.0:8080"
-	}
-
-	err = server.Start(serverAddress)
+	err = server.Start(config.ServerAddress)
 	if err != nil {
 		log.Fatal("Cannot start server:", err)
 	}
