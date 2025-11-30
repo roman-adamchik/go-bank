@@ -13,9 +13,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    env:
-      DB_SOURCE: "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable"
-      SERVER_ADDRESS: "0.0.0.0:8080"
     services:
       postgres:
         image: postgres:18-alpine
@@ -32,6 +29,9 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v5
+
+      - name: Setup Config
+        run: cp app.env.example app.env
 
       - name: Set up Go 1.25
         uses: actions/setup-go@v5
