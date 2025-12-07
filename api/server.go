@@ -43,6 +43,6 @@ func (server *Server) setupRouter() {
 
 func (server *Server) setupValidators() {
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-		v.RegisterValidation("validCurrency", validCurrency)
+		v.RegisterValidation("currency", validCurrency)
 	}
 }
