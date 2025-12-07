@@ -196,7 +196,7 @@ func TestCreateAccountAPI(t *testing.T) {
 			server := NewServer(store)
 			recorder := httptest.NewRecorder()
 
-			url := fmt.Sprintf("/accounts")
+			url := "/accounts"
 			arg := createAccountRequest{
 				Owner:    tc.owner,
 				Currency: tc.currency,

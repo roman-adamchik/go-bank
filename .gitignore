@@ -1,6 +1,11 @@
 #IDE
 .idea
+.cursor
+.vscode
 
 #secrets
 .env
 app.env
+
+#macos
+.DS_Store
