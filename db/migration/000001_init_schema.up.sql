@@ -33,7 +33,7 @@ CREATE INDEX ON "transfers" ("from_account_id", "to_account_id");
 
 COMMENT ON COLUMN "entries"."amount" IS 'Can be negative or positive';
 
-COMMENT ON COLUMN "transfers"."amount" IS 'Must be only positibe';
+COMMENT ON COLUMN "transfers"."amount" IS 'Must be only positive';
 
 ALTER TABLE "entries" ADD FOREIGN KEY ("account_id") REFERENCES "accounts" ("id");
 
