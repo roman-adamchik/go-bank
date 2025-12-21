@@ -36,6 +36,8 @@ func (server *Server) setupRouter() {
 	router.DELETE("/accounts/:id", server.deleteAccount)
 	router.GET("/accounts", server.listAccount)
 
+	router.POST("/users", server.createUser)
+
 	router.POST("/transfers", server.createTransfer)
 
 	server.router = router
