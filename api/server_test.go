@@ -12,7 +12,7 @@ func TestServerStartInvalidAddress(t *testing.T) {
 	defer ctrl.Finish()
 
 	store := mockdb.NewMockStore(ctrl)
-	server := NewServer(store)
+	server := newTestServer(t, store)
 
 	// Invalid address (missing port) should cause an immediate error.
 	err := server.Start("invalid")

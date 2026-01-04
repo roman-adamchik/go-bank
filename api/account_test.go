@@ -94,7 +94,7 @@ func TestGetAccountAPI(t *testing.T) {
 
 			tc.buildStubs(store)
 
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			url := fmt.Sprintf("/accounts/%d", tc.accountId)
@@ -193,7 +193,7 @@ func TestCreateAccountAPI(t *testing.T) {
 
 			tc.buildStubs(store)
 
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			url := "/accounts"
@@ -288,7 +288,7 @@ func TestDeleteAccountAPI(t *testing.T) {
 			store := mockdb.NewMockStore(ctrl)
 			ct.buildStubs(store)
 
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			url := fmt.Sprintf("/accounts/%d", ct.id)
@@ -416,7 +416,7 @@ func TestListAccountsAPI(t *testing.T) {
 			store := mockdb.NewMockStore(ctrl)
 			ct.buildStubs(store)
 
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 
 			// Build URL conditionally (omit params when we want missing)
